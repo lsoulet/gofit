@@ -7,6 +7,8 @@ import (
 )
 
 type Measurement struct {
+	ID      uint `gorm:"primaryKey"`
+	UserID  uint
 	Date    time.Time
 	Weight  float64
 	Height  float64

@@ -3,14 +3,17 @@ package models
 import "time"
 
 type DailyMenu struct {
-	Date  time.Time // Unique per day
-	Meals []Meal
+	ID     uint      `gorm:"primaryKey"`
+	UserID uint
+	User   User      `gorm:"foreignKey:UserID"`
+	Date   time.Time
+	Meals  []Meal    `gorm:"many2many:dailymenu_meals;"`
 }
 
 func (d *DailyMenu) GetDailyMacroSummary() (float64, float64, float64, float64, error) {
 	var totalCalories, totalProteins, totalCarbohydrates, totalLipids float64
 	for _, meal := range d.Meals {
-		cal, prot, carb, lipid := meal.CalculateMacros()
+		cal, prot, carb, lipid := meal.GetMacros()
 		totalCalories += cal
 		totalProteins += prot
 		totalCarbohydrates += carb

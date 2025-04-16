@@ -18,13 +18,14 @@ const (
 )
 
 type User struct {
-	FirstName         string
-	LastName          string
+	ID                uint   `gorm:"primaryKey"`
+	FirstName         string `gorm:"not null"`
+	LastName          string `gorm:"not null"`
 	Age               int
-	Measurements      []Measurement
+	Measurements      []Measurement `gorm:"foreignKey:UserID"`
 	Goal              Goal
-	Gender            Gender
-	DailyMenus        []DailyMenu
+	Gender            Gender      `gorm:"not null"`
+	DailyMenus        []DailyMenu `gorm:"many2many:user_dailymenus;"`
 	CalorieNeeds      float64
 	ProteinNeeds      float64
 	CarohydratesNeeds float64
